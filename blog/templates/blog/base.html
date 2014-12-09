@@ -1,0 +1,32 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "blog/css/bootstrap.min.css" %}" type="text/css" />
+    <link rel="stylesheet" href="{% static "blog/css/main.css" %}" type="text/css" />
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-static-top" role="navigation">
+      <div class="container">
+		  {% include "blog/menu.html" %}
+      </div>
+    </nav>
+
+    <div class="container">
+      <article>
+		  {% block content %}{% endblock %}
+      </article>
+
+      <footer>
+        Copyright &copy 2014 John Kalantzis
+      </footer>
+    </div>
+
+  </body>
+
+</html>

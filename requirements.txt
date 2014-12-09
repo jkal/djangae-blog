@@ -1,0 +1,6 @@
+git+https://github.com/potatolondon/djangae.git#egg=djangae
+Django==1.6.8
+django-secure
+django-csp
+django-session-csrf
+Markdown

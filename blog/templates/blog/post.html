@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<header>
+	<h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+	<span>by {{ post.author.email }}</span>
+	<span>{{ post.published }}</span>
+	<span class="label label-default">tag1</span>
+	<span class="label label-default">tag2</span>
+	
+	{% if user.is_superuser %}
+	<div class="actions">
+		<a class="btn btn-warning" type="button" href="">Edit</a>
+		<form action="{% url "post-delete" post.slug %}" method="post">{% csrf_token %}
+			<button type="submit" class="btn btn-danger">Delete</button>
+		</form>
+	</div>
+	{% endif %}
+
+</header>
+<div class="content">{{ post.content_markup|safe }}</div>
+{% endblock %}

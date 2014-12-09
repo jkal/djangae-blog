@@ -1,0 +1,18 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+	{% if posts %}
+	<h3>All posts</h3>
+	<ul class="postlist">
+		{% for post in posts %}  
+	 	<li>
+			<h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+			<span>by {{ post.author.email }} on <time>{{ post.published|date:"F jS Y" }}</time></span>
+		</li>
+		{% endfor %}
+	</ul>
+	{% else %}
+	<h3>No content yet.</h3>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+<div class="navbar-header">
+  <a class="navbar-brand" href="/">BLOG</a>
+</div>
+
+<ul class="nav navbar-nav navbar-right">
+{% if user.is_authenticated %}
+	<li>
+		<p class="navbar-text">Signed in as {{ user.email }}</p>
+	</li>
+
+	<li><a href="{% url "post-add" %}">Add post</a></li>
+	<li><a href="{% url "logout" %}?next={{ request.path }}">Log out</a></li>
+{% else %}
+	<li><a href="{% url "djangae_login_redirect" %}?next={{ request.path }}">Log in</a></li>
+{% endif %}
+</ul>

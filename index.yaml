@@ -21,19 +21,6 @@ indexes:
   - name: published
     direction: desc
 
-- kind: blog_post
-  properties:
-  - name: published
-    direction: desc
-  - name: __key__
-    direction: desc
-
-- kind: django_admin_log
-  properties:
-  - name: user_id
-  - name: action_time
-    direction: desc
-
 - kind: django_content_type
   properties:
   - name: app_label

@@ -1,7 +1,19 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 from djangae.contrib.gauth.models import GaeDatastoreUser
+from djangae.fields import RelatedSetField
 import markdown
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        ordering = ('name',)
+
+    def __unicode__(self):
+        return self.name
+
 
 class Post(models.Model) :
     title = models.CharField(max_length=255)
@@ -14,9 +26,9 @@ class Post(models.Model) :
     draft = models.BooleanField(default=False)
 
     author = models.ForeignKey(GaeDatastoreUser)
+    tagobjs = RelatedSetField(Tag)
 
     class Meta:
-        app_label = 'blog'
         ordering = ['-published']
 
     def save(self):
@@ -24,29 +36,7 @@ class Post(models.Model) :
         super(Post, self).save()
 
     def get_absolute_url(self):
-        return reverse('post', args=[self.slug,])
+        return reverse('post', args=(self.slug,))
 
     def __unicode__(self):
-        return "%s" % (self.title,)
-
-
-class Tag(models.Model):
-    name = models.CharField(max_length=50, unique=True, db_index=True)
-
-    class Meta:
-        ordering = ('name',)
-        verbose_name = 'tag'
-        verbose_name_plural = 'tags'
-
-    def __unicode__(self):
-        return self.name
-
-
-class TaggedPost(models.Model):
-    """Relationship between a tag and a post."""
-
-    tag = models.ForeignKey(Tag, related_name='items')
-    post = models.ForeignKey(Post)
-    
-    def __unicode__(self):
-        return u'%s [%s]' % (self.object, self.tag)
+        return self.title

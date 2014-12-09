@@ -95,6 +95,10 @@ article > header > span {
     color: #cbcbcb;
 }
 
+.bootstrap-tagsinput {
+	width: 100%;
+}
+
 .gist {
     font-size: 14px;
     line-height: normal;

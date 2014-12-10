@@ -60,7 +60,7 @@ article {
 article h3 a {
     text-transform: uppercase;
     font-weight: 800;
-    border-bottom: 1px solid #cbcbcb;
+    border-bottom: 1px solid #999;
     color: #333;
 	text-align: right;
 }
@@ -75,8 +75,8 @@ article > header {
     margin-bottom: 20px;
 }
 
-article > header > span {
-    color: #cbcbcb;
+article span {
+    color: #999;
     font-size: 0.9em;
     font-style: italic;
     margin-top: 1.75em;
@@ -103,4 +103,21 @@ article > header > span {
     font-size: 14px;
     line-height: normal;
     width: 100%
+}
+
+.inline {
+	display:inline;
+}
+
+.actions {
+	float:right;
+}
+
+a span.label,
+a:hover span.label:hover {
+	text-decoration: none;
+}
+
+.post-info {
+	display:block;margin-top:0
 }

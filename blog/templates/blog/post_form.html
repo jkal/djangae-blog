@@ -1,6 +1,8 @@
 {% extends "blog/base.html" %}
 {% load csshelpers %}
 
+{% block title %}{{ post.title }} - {{ block.super }}{% endblock %}
+
 {% block content %}
 <div class="content">
 	<form role="form" action="" method="post">{% csrf_token %}
@@ -17,7 +19,7 @@
 			</div>
 		{% endfor %}
 
-	    <input type="submit" class="btn btn-default" value="Add post" />
+	    <input type="submit" class="btn btn-default" value="Save" />
 	</form>
 </div>
 {% endblock %}

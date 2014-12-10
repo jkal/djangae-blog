@@ -21,6 +21,12 @@ indexes:
   - name: published
     direction: desc
 
+- kind: blog_post
+  properties:
+  - name: tagobjs_ids
+  - name: published
+    direction: desc
+
 - kind: django_content_type
   properties:
   - name: app_label

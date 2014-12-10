@@ -1,5 +1,7 @@
 {% extends "blog/base.html" %}
 
+{% block title %}All posts - {{ block.super }}{% endblock %}
+
 {% block content %}
 
 	{% if posts %}
@@ -8,7 +10,14 @@
 		{% for post in posts %}  
 	 	<li>
 			<h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-			<span>by {{ post.author.email }} on <time>{{ post.published|date:"F jS Y" }}</time></span>
+
+			<div style="float:right">
+			{% for tag in post.tagobjs.all %}
+				<a class="label label-default" href="{% url "tag" tag.name %}">{{ tag }}</a>
+			{% endfor %}
+			</div>
+
+			<span class="post-info">by {{ post.author.email }} on <time>{{ post.published|date:"F jS Y" }}</time></span>
 		</li>
 		{% endfor %}
 	</ul>

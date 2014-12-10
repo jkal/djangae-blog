@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.generic import View
@@ -25,13 +26,12 @@ class LoginRequiredMixin(object):
 
 class IndexView(View):
     template_name = 'blog/index.html'
-    model = Post
 
     def get(self, request):
-        posts = self.model.objects.filter(draft=False)
+        posts = Post.objects.filter(draft=False)
         drafts = []
         if request.user.is_authenticated():
-            drafts = self.model.objects.filter(draft=True, author=request.user)
+            drafts = Post.objects.filter(draft=True, author=request.user)
         return render(request, self.template_name, {
             'posts': posts,
             'drafts': drafts
@@ -40,12 +40,15 @@ class IndexView(View):
 
 class PostView(View):
     template_name = 'blog/post.html'
-    model = Post
 
     def get(self, request, slug):
-        post = get_object_or_404(self.model, slug=slug)
+        post = get_object_or_404(Post, slug=slug)
+        show_edit = False
+        if request.user.is_authenticated() and post.author == request.user:
+            show_edit = True
         return render(request, self.template_name, {
-            'post': post
+            'post': post,
+            'show_edit': show_edit
         })
 
 
@@ -97,6 +100,9 @@ class PostEditView(LoginRequiredMixin, View):
 
     def get(self, request, slug):
         post = get_object_or_404(Post, slug=slug)
+        if post.author != request.user:
+            raise PermissionDenied
+
         form = self.form_class(request=request, instance=post,label_suffix='')
         return render(request, self.template_name, {
             'form': form
@@ -105,6 +111,9 @@ class PostEditView(LoginRequiredMixin, View):
     def post(self, request, slug):
         post = get_object_or_404(Post, slug=slug)
         form = self.form_class(request.POST, instance=post, request=request, label_suffix='')
+        if post.author != request.user:
+            raise PermissionDenied
+
         if form.is_valid():
             newpost = form.save()
             return HttpResponseRedirect(reverse('post', args=[newpost.slug,]))
@@ -117,6 +126,8 @@ class PostDeleteView(LoginRequiredMixin, View):
 
     def post(self, request, slug):
         post = Post.objects.get(slug=slug)
+        if self.post.author != request.user:
+            raise PermissionDenied
         post.delete()
         return HttpResponseRedirect(reverse('index'))
 

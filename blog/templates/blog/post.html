@@ -8,7 +8,7 @@
 		<a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
 	</h3>
 
-	{% if user.is_superuser %}
+	{% if show_edit %}
 	<div class="actions inline">
 		<a class="btn btn-warning" type="button" href="{% url "post-edit" post.slug %}">Edit</a>
 		<form class="inline" action="{% url "post-delete" post.slug %}" method="post">{% csrf_token %}

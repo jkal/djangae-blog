@@ -126,7 +126,7 @@ class PostDeleteView(LoginRequiredMixin, View):
 
     def post(self, request, slug):
         post = Post.objects.get(slug=slug)
-        if self.post.author != request.user:
+        if post.author != request.user:
             raise PermissionDenied
         post.delete()
         return HttpResponseRedirect(reverse('index'))

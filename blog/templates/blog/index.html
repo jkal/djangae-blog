@@ -24,4 +24,26 @@
 	{% else %}
 	<h3>No content yet.</h3>
 	{% endif %}
+
+	<br/>
+
+	{% if user.is_authenticated %}
+	<h3>My drafts</h3>
+	<ul class="postlist">
+		{% for post in drafts %}
+		<li>
+			<h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+
+			<div style="float:right">
+			{% for tag in post.tagobjs.all %}
+				<a class="label label-default" href="{% url "tag" tag.name %}">{{ tag }}</a>
+			{% endfor %}
+			<a class="btn btn-warning" type="button" href="{% url "post-edit" post.slug %}">Edit</a>
+			</div>
+			<span class="post-info">by {{ post.author.email }} on <time>{{ post.published|date:"F jS Y" }}</time></span>
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+
 {% endblock %}

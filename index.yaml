@@ -17,6 +17,13 @@ indexes:
 
 - kind: blog_post
   properties:
+  - name: author_id
+  - name: draft
+  - name: published
+    direction: desc
+
+- kind: blog_post
+  properties:
   - name: draft
   - name: published
     direction: desc

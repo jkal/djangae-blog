@@ -29,8 +29,12 @@ class IndexView(View):
 
     def get(self, request):
         posts = self.model.objects.filter(draft=False)
+        drafts = []
+        if request.user.is_authenticated():
+            drafts = self.model.objects.filter(draft=True, author=request.user)
         return render(request, self.template_name, {
-            'posts': posts
+            'posts': posts,
+            'drafts': drafts
         })
 
 

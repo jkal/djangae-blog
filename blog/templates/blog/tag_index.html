@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+
+{% block title %}All tags - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+	{% if tags %}
+	<h3>All tags</h3>
+
+	<p>
+		{% for tag in tags %}  
+		<a class="label label-default" href="{% url "tag" tag.name %}">{{ tag }}</a>
+		{% endfor %}
+	</p>
+
+	{% else %}
+	<h3>No tags yet.</h3>
+	{% endif %}
+{% endblock %}

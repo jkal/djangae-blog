@@ -57,6 +57,16 @@ class TagView(View):
         })
 
 
+class TagIndexView(View):
+    template_name = 'blog/tag_index.html'
+
+    def get(self, request):
+        tags = Tag.objects.all()
+        return render(request, self.template_name, {
+            'tags': tags,
+        })
+
+
 class PostAddView(LoginRequiredMixin, View):
     template_name = 'blog/post_form.html'
     form_class = PostForm

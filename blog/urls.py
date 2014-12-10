@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     url(r'^posts/(?P<slug>[\w-]+)/$', PostView.as_view(), name='post'),
     url(r'^posts/(?P<slug>[\w-]+)/delete/$', PostDeleteView.as_view(), name='post-delete'),
     url(r'^posts/(?P<slug>[\w-]+)/edit/$', PostEditView.as_view(), name='post-edit'),
+    url(r'^tags/$', TagIndexView.as_view(), name='tag-index'),
     url(r'^tag/(?P<name>[\w-]+)/$', TagView.as_view(), name='tag'),
 )

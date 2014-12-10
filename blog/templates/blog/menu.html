@@ -3,13 +3,13 @@
 </div>
 
 <ul class="nav navbar-nav navbar-right">
+	<li><a href="{% url "tag-index" %}">Tags</a></li>
 {% if user.is_authenticated %}
+	<li><a href="{% url "post-add" %}">Add post</a></li>
+	<li><a href="{% url "logout" %}?next={{ request.path }}">Log out</a></li>
 	<li>
 		<p class="navbar-text">Signed in as {{ user.email }}</p>
 	</li>
-
-	<li><a href="{% url "post-add" %}">Add post</a></li>
-	<li><a href="{% url "logout" %}?next={{ request.path }}">Log out</a></li>
 {% else %}
 	<li><a href="{% url "djangae_login_redirect" %}?next={{ request.path }}">Log in</a></li>
 {% endif %}

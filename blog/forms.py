@@ -49,7 +49,6 @@ class PostForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         post = super(PostForm, self).save(*args, **kwargs)
-
         # Create tags if necessary and assign them to posts.
         # TODO: Investigate if it's possible to use bulk queries
         # instead of a loop.

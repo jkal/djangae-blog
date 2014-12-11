@@ -14,7 +14,8 @@ class PostIndex(object):
 
     def put(self, post):
         try:
-            doc = search.Document(doc_id=post.slug, fields=[
+            doc = search.Document(doc_id=str(post.id), fields=[
+                search.TextField(name='slug', value=post.slug),
                 search.TextField(name='title', value=post.title),
                 search.TextField(name='author', value=post.author.email),
                 search.HtmlField(name='content', value=post.content_markup),
@@ -27,9 +28,9 @@ class PostIndex(object):
         results = []
         if query:
             results = [{
-                'id': r.doc_id,
-                'title': r.fields[0].value,
-                'author': r.fields[1].value
+                'slug': r.fields[0].value,
+                'title': r.fields[1].value,
+                'author': r.fields[2].value
             } for r in self.index.search(query)]
         return results
 

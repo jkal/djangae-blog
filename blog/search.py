@@ -9,8 +9,8 @@ class PostIndex(object):
     but this will have to do for now.
     """
 
-    def __init__(self):
-        self.index = search.Index(name='posts')
+    def __init__(self, name):
+        self.index = search.Index(name=name)
 
     def put(self, post):
         try:
@@ -31,4 +31,7 @@ class PostIndex(object):
         } for r in self.index.search(query)]
         return results
 
-index = PostIndex()
+    def remove(self, post):
+        self.index.delete([post.slug,])
+
+index = PostIndex('posts')

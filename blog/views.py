@@ -144,6 +144,7 @@ class PostDeleteView(LoginRequiredMixin, View):
         post = Post.objects.get(slug=slug)
         if post.author != request.user:
             raise PermissionDenied
+        index.remove(post)
         post.delete()
         return HttpResponseRedirect(reverse('index'))
 

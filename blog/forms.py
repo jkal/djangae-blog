@@ -2,8 +2,8 @@ from django import forms
 from blog.models import Post, Tag
 from blog.search import index
 
-class MultipleChoiceFieldNoValidation(forms.MultipleChoiceField):
 
+class MultipleChoiceFieldNoValidation(forms.MultipleChoiceField):
     def validate(self, value):
         pass
 
@@ -39,6 +39,7 @@ class PostForm(forms.ModelForm):
         super(PostForm, self).__init__(*args, **kwargs)
         self.fields['author'].widget = forms.HiddenInput()
         self.fields['author'].initial = self.request.user.pk
+        self.label_suffix = ''
 
         # When editing a post, prepopulate the tags field with the tags
         # assigned to the post.

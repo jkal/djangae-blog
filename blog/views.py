@@ -6,7 +6,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.generic import View
-from session_csrf import anonymous_csrf
 from google.appengine.api import users
 from blog.models import Post, Tag
 from blog.forms import PostForm
@@ -14,7 +13,7 @@ from blog.search import index
 
 
 class LoginRequiredMixin(object):
-    """ 
+    """
     Wrapper around the `login_required` decorater for use with class based views.
     """
     redirect_field_name = REDIRECT_FIELD_NAME
@@ -80,28 +79,25 @@ class SearchView(View):
 
     def get(self, request):
         query = request.GET.get('q', '')
-
-        results = []
-        if query:
-            results = index.search(query)
+        results = index.search(query)
 
         return render(request, self.template_name, {
             'query': query,
             'results': results,
         })
 
+
 class PostAddView(LoginRequiredMixin, View):
     template_name = 'blog/post_form.html'
-    form_class = PostForm
 
     def get(self, request):
-        form = self.form_class(request=request, label_suffix='')
+        form = PostForm(request=request)
         return render(request, self.template_name, {
             'form': form
         })
 
     def post(self, request):
-        form = self.form_class(request.POST, request=request, label_suffix='')
+        form = PostForm(request.POST, request=request)
         if form.is_valid():
             newpost = form.save()
             return HttpResponseRedirect(reverse('post', args=[newpost.slug,]))
@@ -110,26 +106,24 @@ class PostAddView(LoginRequiredMixin, View):
             'form': form
         })
 
+
 class PostEditView(LoginRequiredMixin, View):
     template_name = 'blog/post_form.html'
-    form_class = PostForm
+
+    def dispatch(self, request, slug):
+        self.postobj = get_object_or_404(Post, slug=slug)
+        if self.postobj.author != request.user:
+            raise PermissionDenied
+        return super(PostEditView, self).dispatch(request, slug)
 
     def get(self, request, slug):
-        post = get_object_or_404(Post, slug=slug)
-        if post.author != request.user:
-            raise PermissionDenied
-
-        form = self.form_class(request=request, instance=post,label_suffix='')
+        form = PostForm(request=request, instance=self.postobj)
         return render(request, self.template_name, {
             'form': form
         })
 
     def post(self, request, slug):
-        post = get_object_or_404(Post, slug=slug)
-        form = self.form_class(request.POST, instance=post, request=request, label_suffix='')
-        if post.author != request.user:
-            raise PermissionDenied
-
+        form = PostForm(request.POST, instance=self.postobj, request=request)
         if form.is_valid():
             newpost = form.save()
             return HttpResponseRedirect(reverse('post', args=[newpost.slug,]))

@@ -1,5 +1,5 @@
-from google.appengine.api import search 
-from blog.models import Post
+from google.appengine.api import search
+
 
 class PostIndex(object):
     """
@@ -24,11 +24,13 @@ class PostIndex(object):
             pass
 
     def search(self, query):
-        results = [{
-            'id': r.doc_id,
-            'title': r.fields[0].value,
-            'author': r.fields[1].value
-        } for r in self.index.search(query)]
+        results = []
+        if query:
+            results = [{
+                'id': r.doc_id,
+                'title': r.fields[0].value,
+                'author': r.fields[1].value
+            } for r in self.index.search(query)]
         return results
 
     def remove(self, post):

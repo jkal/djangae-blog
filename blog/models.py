@@ -15,7 +15,7 @@ class Tag(models.Model):
         return self.name
 
 
-class Post(models.Model) :
+class Post(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     content_markdown = models.TextField()
@@ -40,4 +40,3 @@ class Post(models.Model) :
 
     def __unicode__(self):
         return self.title
-

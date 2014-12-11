@@ -80,7 +80,10 @@ class SearchView(View):
 
     def get(self, request):
         query = request.GET.get('q', '')
-        results = index.search(query)
+
+        results = []
+        if query:
+            results = index.search(query)
 
         return render(request, self.template_name, {
             'query': query,

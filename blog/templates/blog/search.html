@@ -4,7 +4,8 @@
 
 {% block content %}
 
-	<h3>Searching for <span class="label label-default">{{ query }}</span></h3>
+	{% if results %}
+	<h3>Results for <span class="label label-default">{{ query }}</span></h3>
 
 	<ul class="postlist">
 		{% for doc in results %}  
@@ -14,5 +15,8 @@
 		</li>
 		{% endfor %}
 	</ul>
+	{% else %}
+	<p><h3>No posts found.</h3></p>
+	{% endif %}
 
 {% endblock %}

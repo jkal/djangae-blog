@@ -2,6 +2,12 @@
   <a class="navbar-brand" href="/">BLOG</a>
 </div>
 
+<form class="navbar-form navbar-left" role="search" action="{% url 'search' %}" method="get">
+	<div class="form-group">
+		<input type="text" class="form-control" placeholder="Search" name="q" value="{{ query|escape }}">
+	</div>
+</form>
+
 <ul class="nav navbar-nav navbar-right">
 	<li><a href="{% url "tag-index" %}">Tags</a></li>
 {% if user.is_authenticated %}

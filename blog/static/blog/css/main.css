@@ -5,7 +5,7 @@
 }
 
 body {
-  font: 17px/30px sans-serif;
+  font: 16px/30px sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
@@ -15,10 +15,18 @@ body {
     max-width: 45em;
 }
 
+nav .container {
+    max-width: 50em;
+}
+
 .navbar {
     background: #f1f1f1;
     border: none;
     min-height: 60px;
+}
+
+.navbar-form {
+	padding-top: 5px;
 }
 
 .navbar-header {

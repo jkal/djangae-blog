@@ -1,0 +1,18 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Posts tagged with {{ tag }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+	<h3>Searching for <span class="label label-default">{{ query }}</span></h3>
+
+	<ul class="postlist">
+		{% for doc in results %}  
+	 	<li>
+			<h3><a href="{% url 'post' doc.id %}">{{ doc.title }}</a></h3>
+			<span class="post-info">by {{ doc.author }}</span>
+		</li>
+		{% endfor %}
+	</ul>
+
+{% endblock %}

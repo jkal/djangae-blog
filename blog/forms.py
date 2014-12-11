@@ -1,6 +1,6 @@
 from django import forms
 from blog.models import Post, Tag
-
+from blog.search import index
 
 class MultipleChoiceFieldNoValidation(forms.MultipleChoiceField):
 
@@ -58,5 +58,7 @@ class PostForm(forms.ModelForm):
             tag_obj, _ = Tag.objects.get_or_create(name=tag)
             post.tagobjs.add(tag_obj)
             post.save()
+
+        index.put(post)
 
         return post

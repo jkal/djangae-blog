@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^posts/(?P<slug>[\w-]+)/edit/$', PostEditView.as_view(), name='post-edit'),
     url(r'^tags/$', TagIndexView.as_view(), name='tag-index'),
     url(r'^tag/(?P<name>[\w-]+)/$', TagView.as_view(), name='tag'),
+    url(r'^search/$', SearchView.as_view(), name='search'),
 )

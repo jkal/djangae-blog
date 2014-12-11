@@ -10,6 +10,7 @@ from session_csrf import anonymous_csrf
 from google.appengine.api import users
 from blog.models import Post, Tag
 from blog.forms import PostForm
+from blog.search import index
 
 
 class LoginRequiredMixin(object):
@@ -73,6 +74,18 @@ class TagIndexView(View):
             'tags': tags,
         })
 
+
+class SearchView(View):
+    template_name = 'blog/search.html'
+
+    def get(self, request):
+        query = request.GET.get('q', '')
+        results = index.search(query)
+
+        return render(request, self.template_name, {
+            'query': query,
+            'results': results,
+        })
 
 class PostAddView(LoginRequiredMixin, View):
     template_name = 'blog/post_form.html'

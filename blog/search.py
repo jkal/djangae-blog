@@ -1,3 +1,4 @@
+import bleach
 from google.appengine.api import search
 
 
@@ -26,6 +27,7 @@ class PostIndex(object):
 
     def search(self, query):
         results = []
+        query = self._clean_query(query)
         if query:
             results = [{
                 'slug': r.fields[0].value,
@@ -33,6 +35,10 @@ class PostIndex(object):
                 'author': r.fields[2].value
             } for r in self.index.search(query)]
         return results
+
+    @staticmethod
+    def _clean_query(value):
+        return bleach.clean(value)
 
     def remove(self, post):
         self.index.delete([post.slug,])

@@ -1,8 +1,9 @@
+import bleach
+import markdown
 from django.core.urlresolvers import reverse
 from django.db import models
 from djangae.contrib.gauth.models import GaeDatastoreUser
 from djangae.fields import RelatedSetField
-import markdown
 
 
 class Tag(models.Model):
@@ -32,7 +33,10 @@ class Post(models.Model):
         ordering = ['-published']
 
     def save(self):
-        self.content_markup = markdown.markdown(self.content_markdown)
+        self.content_markup = bleach.clean(
+            markdown.markdown(self.content_markdown),
+            tags=bleach.ALLOWED_TAGS + ['p', 'h1', 'h2', 'h3', 'img']
+        )
         super(Post, self).save()
 
     def get_absolute_url(self):
